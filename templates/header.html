@@ -1,0 +1,418 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:margin-top="http://www.w3.org/1999/xhtml">
+<head>
+
+	<meta charset="UTF-8">
+
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+	<title>Discussion</title>
+
+	<link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+
+	<script type="text/javascript" src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+
+	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.8/angular.min.js"></script>
+
+	<script type="text/javascript" src={{ url_for('static', filename="js/angular.ng-modules.js") }}></script>
+
+	<script type="text/javascript" src={{ url_for('static', filename="js/ctrl_flyout.js") }}></script>
+
+	<script type="text/javascript" src={{ url_for('static', filename="js/customAlert.js") }}></script>
+
+	<script type="text/javascript" src={{ url_for('static', filename="js/app.js") }}></script>
+
+	<script type="text/javascript" src={{ url_for('static', filename="js/share_functionality.js") }}></script>
+
+	<script src="http://code.jquery.com/jquery-2.1.3.min.js"></script>
+
+	<!--FONTS-->
+
+	<link href='https://fonts.googleapis.com/css?family=Raleway:400,300,800' rel='stylesheet' type='text/css'>
+
+
+
+	<!--CUSTOM CSS-->
+
+	<link rel="stylesheet" href="{{ url_for('static', filename='css/custom_style.css') }}" type="text/css">
+
+    <link rel="icon" type="image/png" href = "img/favicon.png">
+
+	<link rel="stylesheet" href="http://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+
+	<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+
+	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+
+	<style>
+
+	   .dropdown-menu:active, .open .dropdown-toggle {
+
+	   background:#FFF !important;
+
+	   color:#000 !important;
+
+	   }
+
+	</style>
+
+	<script>
+
+	//Uncomment this script when combine with user login
+
+		//$(document).ready(function(){
+
+		//	if ($(".UserIsLogged").length <= 0) {
+
+		//		setTimeout(function(){ Alert.render("Please login to join the discussion");}, 2000)
+
+		//	}
+
+		//	else{
+
+		//		setTimeout(function(){ Alert.ok();}, 2000)
+
+		//	}
+
+		//})
+
+  </script>
+
+</head>
+<body>
+    {% block head%}
+        <div class="container-fluid" >
+
+            <nav class="navbar navbar-default navbar-fixed-top">
+
+            <div id="brav-nav" >
+
+               <div class="container">
+
+                   <div class="navbar-header">
+
+                      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#first-nav" aria-expanded="false">
+
+                        <span class="sr-only">Toggle navigation</span>
+
+                        <span class="icon-bar" style="background-color:white"></span>
+
+                        <span class="icon-bar" style="background-color:white"></span>
+
+                        <span class="icon-bar" style="background-color:white"></span>
+
+                      </button>
+
+                      <div><a href = "index.html"><img src={{url_for ('static', filename="img/brav-logo.png") }}></a></div>
+
+                    </div>
+
+                      <!-- Collect the nav links, forms, and other content for toggling -->
+
+                    <div class="collapse navbar-collapse" id="first-nav">
+
+                      <ul class="nav navbar-nav navbar-right">
+
+                         <li><a href="http://www.gpmaa.com/brav-ones">BECOME A BRĀV ONE</a></li>
+
+                        <li><a href="http://one.brav.org/#/login.html">SCHEDULE A SESSION</a></li>
+
+                        <li><a href="http://one.brav.org/#/login.html">LOGIN</a></li>
+
+                      </ul>
+
+                    </div><!-- /.navbar-collapse -->
+
+                </div>
+
+            </div>
+            <div class="navbar-header">
+
+                  <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+
+                    <span class="sr-only">Toggle navigation</span>
+
+                    <span class="icon-bar"></span>
+
+                    <span class="icon-bar"></span>
+
+                    <span class="icon-bar"></span>
+
+                  </button>
+
+                </div>
+
+
+
+                <!-- Collect the nav links, forms, and other content for toggling -->
+
+                <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+
+                  <ul class="nav navbar-nav">
+
+                   <li><a href="https://www.brav.org/about.html">ABOUT </a></li>
+
+                    <!-- <li><a href="session.html">SESSIONS</a></li>
+
+                    <li><a href="brav-ones.html">BRĀV ONES</a></li> -->
+
+                    <li><a href="/">DISCUSSIONS</a></li>
+
+                    <li><a href="https://www.brav.org/faq.html">FAQ</a></li>
+
+                    <li><a href="https://www.brav.org/blog/">ARTICLES</a></li>
+
+                    <li><a href="https://www.brav.org/contact.html">CONTACT</a></li>
+
+                    <li><a href="https://www.brav.org/store.html">STORE</a></li>
+
+                  </ul>
+
+                </div><!-- /.navbar-collapse -->
+
+              </div><!-- /.container-fluid -->
+
+            </nav>
+        <header id="discussion-header">
+
+            <div class="container-fluid" >
+
+                    <div class="col-md-12">
+
+                        <div class="col-md-6">
+
+                        <span id="brav-span">
+
+                            <h2 style="color:white; font-weight:normal;">DISCUSSION</h2></span>
+
+                            <p>How can we manage <b>conflicts?</b></p>
+
+                            <a>
+
+                                <button id="cpBtn" onclick="toggleCP()" style="	width: 86px; color:white; background-color:#588ebd" >Share</button>
+
+                            </a>
+
+                            </br></br>
+
+                            </br>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </header>
+    {% endblock %}
+    {% block content%}
+    {% endblock %}
+    {% block foot%}
+        	<footer>
+                <div class="container">
+
+                <div class="col-md-12">
+
+                  <div class="col-sm-2">
+
+                    <img src={{url_for ('static', filename="img/brav-logo.png") }} width="100" style="margin-bottom: 100px">
+
+                    <div class="row">
+
+                      <div class="col-md-12">
+
+                                <a href="https://www.facebook.com/bravmove">
+
+                        <img src={{url_for ('static', filename="img/facebook.png") }} width="20">
+
+                                </a>
+
+                                <a href="https://twitter.com/bravmovement">
+
+                    <img src={{url_for ('static', filename="img/twitter.png") }} width="20">
+
+                            </a>
+
+                            <a href="https://www.linkedin.com/in/bravmovement">
+
+                    <img src={{url_for ('static', filename="img/linkedin.png" ) }} width="20">
+
+                            </a>
+
+                      </div>
+
+                    </div>
+
+                  </div>
+
+                  <div class="col-md-5">
+
+                    <p>We create a technology paradox: often
+
+                      heralded for its speed, we use tech to
+
+                      help our users slow down, listen, think,
+
+                      and ultimately have successful conflict
+
+                      management.
+
+                    </p>
+
+                    <p>&nbsp;</p>
+
+                            <p>Copyright &copy;
+
+                                <script language="javascript" type="text/javascript">
+
+                                var today = new Date()
+
+                                var year = today.getFullYear()
+
+                                document.write(year)
+
+                                </script>
+
+                                Brāv. All Rights Reserved.
+
+                            </p>
+
+                  </div>
+
+                  <div class="col-md-5">
+
+                    <div class="col-md-6">
+
+                      <ul>
+
+                        <li><a href="about.html">ABOUT</a></li>
+
+                        <li><a href="faq.html">FAQ</a></li>
+
+                        <li><a href="http://www.gpmaa.com/brav-ones">BRĀV ONES</a></li>
+                        <li><a href="https://streamlabs.com/bravbrav" target="_blank"><b>DONATE</b></a></li>
+                      </ul>
+
+                    </div>
+
+                    <div class="col-md-6">
+
+                      <ul>
+
+                        <li><a href="session.html">SESSIONS</a></li>
+
+                        <li><a href="discussion.html">DISCUSSIONS</a></li>
+
+                        <li><a href="contact.html">CONTACT</a></li>
+
+                      </ul>
+
+                    </div>
+
+                    <!-- <p>&nbsp;</p>
+                    <div class="col-md-12">
+                          <p>
+                              <label>JOIN THE AWARD WINNING TEAM</label><a href="http://www.acctm.org/pg27.cfm" target="_blank"><img src="img/logos/American college.png" style="height:20px"></a>
+                          </p>
+                    </div> -->
+
+                  </div>
+
+                </div>
+
+                <div class="col-md-12">
+                  <div class="col-sm-2"></div>
+                  <div class="col-md-10">
+                    <p>&nbsp;</p>
+
+                    <p style="margin: 0 auto;">
+                        <label>JOIN THE AWARD WINNING TEAM</label>
+                        <a href="http://www.acctm.org/pg27.cfm" target="_blank"><img src={{url_for ('static', filename="img/logos/American college.png") }} style="height:20px"></a>
+                        <a href="http://www.google.com" target="_blank"><img src={{url_for ('static', filename="img/logos/google.png") }} style="height:20px; margin-top:4px;"></a>
+                    </p>
+                    <p style="margin: 0 auto;">
+                      <a href="https://www.techforjustice.org/" target="_blank"><img src={{url_for ('static', filename="img/logos/techForJustice.png") }} style="height:40px;"></a>
+                      <span style="font-size:12px; font-weight:100"> Endorsed at</span><a href="https://www.txmediator.org/conference/" target="_blank"><img src={{url_for ('static', filename="img/logos/texus.gif") }} style="height:40px;"></a>
+                    </p>
+                    <p>
+                        <a href='https://bestcompany.com/online-legal-services'><img src='https://lh3.googleusercontent.com/J8mFEAWI0nD1HVV9EKMB3ikbc-X-LGOeWzfj9giVrz7QL5qPRnPl1jeFvJF0R-aeLONv5rfI6DejDHLtMREDZmBtNpklyv6RjLU3KR6ZP05hLKi62BGNhbt-BJpFdoi5WqyrCosbnVrt7W7YvtzvJE_IpbqT1BjCyJAsemoJkQ9Zkdpo2Pe0c8-uaDwLidoNoITpBAZ96XypYHlZFbUfih5GPWfGy18yLrFo_KT2QsjzpbDj6UxHcsq79r7ViORRPgiprxObGuV8_i3HMCP76tmrkafSPb-9S3lud65rrmkWMzHVr5XYUJjfto2VFguPxfUPgkutZwOzPB90hpOvjuPbChmILMYw00O3BxBjrjjj2JKOBXDzWbAsdrqR9wH75yrjzslJGxxFSDQNLFhWhAvjixUwVGMCYKGL3syRDF-LJcCxj8REq8elcQ2E0DqYtugsRariADHENqiVFl6aM3H9ETrJGUvi6Inao7Cva3OM9cg9y8extxkCdiL0eg3TAMV_wIMyke5i9E_la6A9aysYXPCIHnsoFilspKPnvowoyhXEV7Yu1uheLKkPAkQXMPfNMHWID7MYFSllFJ2ukKf7oF9Nj_S9uyTbsT4DOtCHadaGdCA3CCjlUZHf_IBDb3YJo9lNOIoZZTiR_VQLGME=w256-h241-no' alt='Best Company Expert Contributor Badge' width='150' border='0' />
+                        </a>
+                    </p>
+                </div>
+              </div>
+
+                <div class="col-md-12">
+
+                        <div class="col-sm-2">
+
+                        </div>
+
+                        <div class="col-md-10">
+
+                            <p>&nbsp;</p>
+
+                            <p>Featured in </p>
+
+                            <p style="margin-bottom:15px;">
+
+                      <a href="http://time.com/money/4572115/wear-hijab-work-afraid-civil-rights/" target="_blank"> <img src={{url_for ('static', filename="img/logos/money.png") }} style="height:40px"></a>
+
+                                &nbsp;
+
+                                <a href="http://huffingtonpost.com/entry/brāv-at-its-best_us_57888eb4e4b0e7c8734fc9a4" target="_blank"> <img src={{url_for ('static', filename="img/logos/huffingtonpost.png") }} style="height:40px"></a>
+
+                                &nbsp;
+
+                                <a href="http://time.com" target="_blank"> <img src={{url_for ('static', filename="img/logos/time.png") }} style="height:40px"></a>
+
+                                &nbsp;
+
+                                <a href="https://goodmenproject.com/featured-content/a-brave-new-world-of-resolving-conflict-fiff/" target="_blank"> <img src={{url_for ('static', filename="img/logos/goodmen.png") }} style="height:40px"></a>
+                                &nbsp;
+                                <a href="http://finance.yahoo.com/news/afraid-wear-hijab-130016074.html" target="_blank"> <img src={{url_for ('static', filename="img/logos/yahoo.png") }} style="height:40px"></a>
+
+                                &nbsp;
+
+
+                            </p>
+
+                            <p style="margin:0 auto; width:60%">
+                              <a href="https://www.forbes.com/sites/lisaroepe/2018/01/26/why-this-ericsson-executive-always-travels-with-her-amazon-echo-dot/#5096d8b0565e" target="_blank"> <img src={{url_for ('static', filename="img/logos/forbes.png") }} style="height:40px"></a>
+
+                              &nbsp;
+
+                              <a href="https://journal.thriveglobal.com/15-examples-of-how-charitable-giving-helped-a-business-succeed-8cc723e2c3c3?gi=4a5a4bf140ab" target="_blank"> <img src={{url_for ('static', filename="img/logos/Thrive-Global-logo.png") }} style="height:40px"></a>
+
+                              <a href="https://www.fox.com" target="_blank"> <img src={{url_for ('static', filename="img/logos/Fox_logo.png") }} style="height:40px"></a>
+
+                              <!--&nbsp;
+
+                              <a href="https://www.buzzfeed.com/dillonkivo/5-reasons-most-startups-fail-how-to-succeed-39mbj?utm_term=.gaAgjxWLlN#.rs1RvW9Yra" target="_blank"> <img src="img/logos/buzzfid.png" style="height:40px"></a>-->
+                            </p>
+                            <p>
+                                <a href='https://www.usnews.com/education/best-graduate-schools/top-law-schools/articles/2018-04-30/how-to-identify-strong-dispute-resolution-law-programs'><img src='https://2u.com/impact-report-2015/img/institutions/us-news.png' width='150' border='0' />
+                                </a>
+                                <a href='https://hbr.org/2018/06/how-to-prove-yourself-after-a-promotion'><img src='https://static1.squarespace.com/static/5bf461661137a67a9a139bac/t/5c6c3a8a1905f455805befd0/1550596749778/Harvard+business+school.png?format=750w' alt='Best Company Expert Contributor Badge' width='150' border='0' />
+                                </a>
+                            </p>
+
+                        </div>
+
+                        <div class="col-sm-2"></div>
+                        <div class="col-md-10">
+                          <p>&nbsp;</p>
+                          <p style="font-size:12px;">
+                              Brāv is all inclusive regardless of social identity.  Views of one does not necessarily suggest an endorsement by Brāv.
+                          </p>
+                        </div>
+
+                    </div>
+
+              </div>
+
+            </footer>
+    {% endblock %}
+</body>
+</html>

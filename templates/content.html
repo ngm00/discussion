@@ -1,0 +1,219 @@
+{% extends 'header.html' %}
+{% block content%}
+    <style>
+        .black_overlay{
+            display: none;
+            position: absolute;
+            top: 0%;
+            left: 0%;
+            width: 100%;
+            height: 100%;
+            background-color: black;
+            z-index:1001;
+            -moz-opacity: 0.8;
+            opacity:.80;
+            filter: alpha(opacity=88);
+        }
+        .white_content {
+            display: none;
+            width: 100%;
+            height: 100%;
+            background-color: white;
+            z-index:1002;
+            overflow: auto;
+        }
+        .btn:hover {
+  background-color: #3e8e41;
+  color: white;
+}
+
+    </style>
+     <div id="newShare" style="width:30%;   border: 1px solid #AAA; float:left; position: absolute; display:inline; background-color: white; margin-left: 40px" name="msg">
+        <!-- Idea Module -->
+        <button  style="border:none; padding: 3%; width: 27%"onclick="document.getElementById('fileInput').style.display='none'; document.getElementById('light').style.display='none'; document.getElementById('defaultForm').style.display='block'; document.getElementById('share').style.display='block'"><img src="/static/img/writePost.png" style="width:30%"/> post</button>
+        <button style="border:none; padding: 3%; width: 39% ;border-right:solid; border-left:solid;" onclick="document.getElementById('fileInput').style.display='inline'; document.getElementById('light').style.display='none'; document.getElementById('defaultForm').style.display='block'; document.getElementById('share').style.display='block'"><img src="/static/img/photo.png" style="width:20%"/>  photo/video</button>
+        <button style="border:none; padding: 3%; width: 30%" href = "javascript:void(0)" style="display:none;" onclick = "document.getElementById('light').style.display='block'; document.getElementById('defaultForm').style.display='none'; document.getElementById('share').style.display='none'"><img src="/static/img/writePoll.png" style="width:33%"/> poll</button>
+        <form id="defaultForm" method="POST" action="/create" enctype="multipart/form-data">
+            <div style="text-align: center;">
+                <label>name:</label>
+                <td><input type="text" name="username" required="required"></td>
+            </div>
+            <p></p>
+            <div style="text-align: center;">
+                <td><input style="height:100px; color: #AAA; background-color: aliceblue; width: 90%;" type="text" name="message" required="required" value="Say something" onfocus="this.value=''; this.style.color='black'"></td>
+                <p></p>
+            </div>
+            <div>
+                <td><input id="fileInput" type="file" name="image" value="select your image" style="display:none;" > </td>
+                <p></p>
+            </div>
+            <div>
+                <input id="share" style="float:right; margin:3%; padding:1%; width:20%; color:white; background-color:cornflowerblue; font-weight:bold; " type="submit" value="SHARE">
+            </div>
+        </form>
+        <!-- Vote Module -->
+        <p></p>
+        <button href = "javascript:void(0)" style="display:none;" onclick = "document.getElementById('light').style.display='block';document.getElementById('fade').style.display='block'">click</button>
+        <div id="light" class="white_content">
+            <form method="POST" action="/create_vote" enctype="multipart/form-data">
+                <div class="table_content">
+                    <div>
+                        <label style="padding: 11px">Name:</label>
+                        <td><input type="text"  name="username" required="required"></td>
+                    </div>
+                    <div style="text-align:center"> 
+                        <td><input type="text" style="height:100px; color:#AAA; background-color:aliceblue; width:90%;" name="question" onfocus="this.value=''; this.style.color='black'" required="required" value="Ask a question"></td>
+                    </div>
+                    <p></p>
+                    <div>
+                        <label style="padding: 8px">Option:</label>
+                        <td><input type="text" name="option1" required="required"></td>
+                        <p></p>
+                    </div>
+                    <div>
+                        <label style="padding: 8px">Option:</label>
+                        <td><input type="text" name="option2" required="required"></td>
+                        <p></p>
+                    </div>
+                    <div>
+                        <label style="padding: 8px">Option:</label>
+                        <td><input  type="text" name="option3" > (optional)</td>
+
+                        <p></p>
+                    </div>
+                    <div>
+                        <label style="padding: 8px">Option:</label>
+                        <td><input type="text" name="option4" > (optional)</td>
+                        <p></p>
+                    </div>
+                </div>
+
+            <div>
+                <input style="float:right; margin:3%; padding:1%; width:20%; color:white; background-color:cornflowerblue; font-weight:bold;" type="submit" value="SHARE">
+            </div>
+        </form>
+
+        <a href = "javascript:void(0)" onclick = "document.getElementById('light').style.display='none';document.getElementById('fade').style.display='none'">close</a></div>
+        <div id="fade" class="black_overlay"></div>
+    </div>
+    <div style="background-color: white; height: 900px">
+        
+
+        <!-- Show Messages Module -->
+        <div style="width:900px; height:auto; background-color: white ;margin: auto;" name="messageAll">
+
+            {% for user in data %}
+                <div name="SingleMessage" style="border-color:silver; border-style: solid; margin-top: 2% ;border-width: 1px;">
+                    <img src="../static/img/testImage.png"/ style="display:inline-block; width:7%; padding-top: 5px; padding-left: 5px">
+                    <div style="font-weight: bold; border-color: #777777; display: inline-block; width: 88%;">{{ user.username }}</div>
+                    <img src="../static/img/more_option.png" style="display:inline-block; width:3%;">
+                    <div id="options" style="display:grid; width:10%; float:right">
+                        <button class="btn" style="border:none; background-color: lightgrey; border-radius:0px; " >Edit</button>
+                        <button class="btn" style="border:none; background-color: lightgrey; border-radius:0px; ">Delete</button>
+                        <button class="btn" style="border:none; background-color: lightgrey; border-radius:0px; " >Report</button>
+                    </div>
+                    {% if user.message %}
+                        <div style="padding: 5px; padding-left: 7%">{{ user.message }}</div>
+                    {% endif %}
+
+                    {% if user.image  and user.image != "" %}
+                        <div id="imageBlock" style="height: 210px; margin: 2px; display: table-cell; text-align: center;  vertical-align: middle">
+                            <img style="margin-left: 50%; height:200px" src="{{ user.image }}">
+                        </div>
+                    {% endif %}
+                </div>
+            <div name="commentSection" style="border-color:silver; border-style: solid; border-width: 0px 1px 1px 1px;">
+                <div name="Singlecomment">
+                    <img src="../static/img/testImage.png"/ style="display:inline-block; width:6%; padding-top: 5px; padding-left: 5px; padding-bottom: 5px">
+                    <div style="font-weight: bold; border-color: #777777; display: inline-block; color:cornflowerblue;">Paruntiur Nam</div>
+                    <div style="padding: 5px; display: inline-block">simeet officiam qui dem qui non comnis modias</div>
+                </div>
+                <div name="Singlecomment">
+                    <img src="../static/img/testImage.png"/ style="display:inline-block; width:6%; padding-top: 5px; padding-left: 5px; padding-bottom: 5px">
+                    <div style="font-weight: bold; border-color: #777777; display: inline-block; color:cornflowerblue;">Paruntiur Nam</div>
+                    <div style="padding: 5px; display: inline-block">simeet officiam qui dem qui non comnis modias</div>
+                </div>
+            <div name="inputComment">
+                <img src="../static/img/testImage.png"/ style="display:inline-block; width:6%; padding-top: 5px; padding-left: 5px; padding-bottom: 5px">
+                <form method="POST" action="/create_comment" enctype="multipart/form-data" style="width:91%;display: inline-block">
+                    <input type="text" name="newCommentInput" style="width:100%; background-color: aliceblue;" value="write a comment" onfocus="this.value=''" >
+                </form>
+            </div>
+            </div>
+                {% endfor %}
+
+
+                {% for user in vote %}
+                <div name="SingleMessage" style="border-color:silver; border-style: solid; margin-top: 1% ;border-width: 1px;">
+                <form method="POST" action="/voted" enctype="multipart/form-data">
+                    <img src="../static/img/testImage.png"/ style="display:inline-block; width:7%; padding-top: 5px; padding-left: 5px">
+                    <div style="font-weight: bold; border-color: #777777; display: inline-block; width: 88%;">{{ user.username }}</div>
+                    <img src="../static/img/more_option.png"/ style="display:inline-block; width:3%;">
+                    <div style="display:grid; width:10%; float:right">
+                        <button class="btn" style="border:none; background-color: lightgrey;">Edit</button>
+                        <button class="btn" style="border:none; background-color: lightgrey;">Delete</button>
+                        <button class="btn" style="border:none; background-color: lightgrey;" >Report</button>
+                    </div>
+                        <div id="question" style="padding: 5px">
+                            {{ user.question }}
+                        </div>
+
+                        {% if user.option1  and user.option1 != "" %}
+                            <div id="option1" style="padding: 5px">
+                                <input type="checkbox" name={{ user.vid1 }} >
+                                {{ user.option1 }} {{ user.num1 }}
+                            </div>
+
+                        {% endif %}
+                        {% if user.option2  and user.option2 != "" %}
+                            <div id="option2" style="padding: 5px">
+                                <input type="checkbox" name={{ user.vid2 }} >
+                                {{ user.option2 }} {{ user.num2 }}
+                            </div>
+
+                        {% endif %}
+                        {% if user.option3  and user.option3 != "" %}
+                            <div id="option3" style="padding: 5px">
+                                <input type="checkbox" name={{ user.vid3 }} >
+                                {{ user.option3 }} {{ user.num3 }}
+                            </div>
+
+                        {% endif %}
+                        {% if user.option4  and user.option4 != "" %}
+                            <div id="option4" style="padding: 5px">
+                                <input type="checkbox" name={{ user.vid4 }} >
+                                {{ user.option4 }} {{ user.num4 }}
+                            </div>
+                        {% endif %}
+                        <div>
+                        <input type="submit" value="vote">
+                        </div>
+                </form>
+                    </div>
+                    <div name="commentSection" style="border-color:silver; border-style: solid; border-width: 0px 1px 1px 1px;">
+                        <div name="Singlecomment">
+                            <img src="../static/img/testImage.png"/ style="display:inline-block; width:6%; padding-top: 5px; padding-left: 5px; padding-bottom: 5px">
+                            <div style="font-weight: bold; border-color: #777777; display: inline-block; color:cornflowerblue;">Paruntiur Nam</div>
+                            <div style="padding: 5px; display: inline-block">simeet officiam qui dem qui non comnis modias</div>
+                        </div>
+                        <div name="Singlecomment">
+                            <img src="../static/img/testImage.png"/ style="display:inline-block; width:6%; padding-top: 5px; padding-left: 5px; padding-bottom: 5px">
+                            <div style="font-weight: bold; border-color: #777777; display: inline-block; color:cornflowerblue;">Paruntiur Nam</div>
+                            <div style="padding: 5px; display: inline-block">simeet officiam qui dem qui non comnis modias</div>
+                        </div>
+                    <div name="inputComment">
+                        <img src="../static/img/testImage.png"/ style="display:inline-block; width:6%; padding-top: 5px; padding-left: 5px; padding-bottom: 5px">
+                        <form method="POST" action="/create_comment" enctype="multipart/form-data" style="width:91%;display: inline-block">
+                            <input type="text" name="newCommentInput" style="width:100%; background-color: aliceblue;" value="write a comment" onfocus="this.value=''" >
+                        </form>
+                    </div>
+                {% endfor %}
+
+
+        </div>
+    </div>
+
+
+
+
+{% endblock %}
